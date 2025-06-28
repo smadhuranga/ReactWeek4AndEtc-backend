@@ -5,14 +5,14 @@
  * @description
  */
 
-import express from "express";
+import express, {Express , Request , Response} from "express";
 
 // 1. initialization the express app
-const app = express();
+let app : Express = express();
 // Define port
 const port = 3000;
 
 // 2. listen to port
-app.get('/', (req, res) => {
-
+app.get('/', (req : Request, res : Response) => {
+  res.send("Hello World!");
 });
