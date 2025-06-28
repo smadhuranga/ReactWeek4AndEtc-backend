@@ -13,4 +13,6 @@ const app = express();
 const port = 3000;
 
 // 2. listen to port
-app.get('/', (req, res));
+app.get('/', (req, res) => {
+
+});
