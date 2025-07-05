@@ -7,9 +7,12 @@
 
 
 import app from "./app";
+import dotenv from "dotenv";
+dotenv.config(); // Load environment variables from .env file
+
 
 // 2.Define port
-const port = 3000;
+const port = process.env.PORT || 3000; // Get the port number from environment variable
 
 
 
