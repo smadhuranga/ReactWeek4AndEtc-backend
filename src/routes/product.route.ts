@@ -20,6 +20,6 @@ productRouter.get("/all", getAllProducts);
 productRouter.post("/save", saveProduct);
 productRouter.get("/:id", getProducts)
 productRouter.put("/update/:id", updateProduct)
-productRouter.delete("delete/:id", deleteProduct)
+productRouter.delete("/delete/:id", deleteProduct)
 
 export default productRouter

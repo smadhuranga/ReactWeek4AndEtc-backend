@@ -6,6 +6,8 @@
  */
 import express, {Express, Request, Response} from "express";
 import productRouter from "./routes/product.route";
+import cors from "cors";
+import {all} from "axios";
 
 
 
@@ -18,6 +20,16 @@ let app : Express = express();
 //payload data to be converted
 // to JSON format
 app.use(express.json());
+const allowedOrigins = ["http://localhost:3000"];
+// app.use(cors()); // Enable CORS
+const corsOptions = (origin: string | undefined, callback: (err: Error | null, allow?: boolean)=>void) =>  {
+    if(!origin|| allowedOrigins.includes(origin) ) {
+        callback(null, true);
+    } else {
+        callback(new Error("Not allowed by CORS"));
+    }
+}
+
 app.use("/api/products", productRouter)
 
 
