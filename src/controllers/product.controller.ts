@@ -102,3 +102,4 @@ export const deleteProduct = (req: Request, res: Response) => {
     });
 
 }
+

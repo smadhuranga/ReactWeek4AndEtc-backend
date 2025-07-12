@@ -8,8 +8,11 @@
 
 import app from "./app";
 import dotenv from "dotenv";
+import DBConnection from "./db/DBConnection";
+import {debuglog} from "node:util";
 dotenv.config(); // Load environment variables from .env file
 
+DBConnection().then(result => console.log(result));
 
 // 2.Define port
 const port = process.env.PORT || 3000; // Get the port number from environment variable
