@@ -8,6 +8,7 @@ import express, { Express, Request, Response } from "express";
 import productRouter from "./routes/product.route";
 import contactRouter from "./routes/contact.route"; // Import contact router
 import cors from "cors";
+import authRouters from "./routes/auth.routes";
 
 // 1. Initialize the express app
 let app: Express = express();
@@ -42,6 +43,8 @@ app.use(cors(corsOptions));
 
 app.use(cors(corsOptions)); // Enable CORS with options
 
+
+app.use("/api/auth",authRouters);
 // Product routes
 app.use("/api/products", productRouter);
 
