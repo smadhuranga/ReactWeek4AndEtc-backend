@@ -35,13 +35,15 @@ export const updateProduct = async (id: number, data: ProductDto) => {
     Object.assign(product, data);
     return product
 }
-export const deleteProduct = (id: number) => {
-    const index = productList.findIndex(product => product.id === id);
-    if (index === -1) {
-        return false
-    }
-    productList.splice(index, 1);
-    return true
+export const deleteProduct =async (id: number) => {
+    // const index = productList.findIndex(product => product.id === id);
+    // if (index === -1) {
+    //     return false
+    // }
+    // productList.splice(index, 1);
+    // return true
+    await Product.deleteOne({id: id});
+    return true;
 }
 
 export const validateProduct = (product: ProductDto) => {

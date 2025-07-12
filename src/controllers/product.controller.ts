@@ -9,9 +9,9 @@ import * as productService from "../services/product.service";
 
 
 // Controller function to handle get all products
-export const getAllProducts = (req: Request, res: Response) => {
+export const getAllProducts = async (req: Request, res: Response) => {
     try {
-        const products = productService.getAllProducts();
+        const products = await productService.getAllProducts();
         res.status(200).json(products);
     } catch (error) {
         console.error(error);
@@ -20,15 +20,15 @@ export const getAllProducts = (req: Request, res: Response) => {
 
 }
 
-export const saveProduct = (req: Request, res: Response) => {
+export const saveProduct = async (req: Request, res: Response) => {
     try {
         const newProduct = req.body;
-        const validationError = productService.validateProduct(newProduct);
+        const validationError =  productService.validateProduct(newProduct);
         if (validationError) {
             res.status(400).json({error: validationError});
             return;
         }
-        const savedProduct = productService.saveProduct(newProduct);
+        const savedProduct = await productService.saveProduct(newProduct);
         res.status(201).json(savedProduct);
     } catch (error) {
         console.error(error);
@@ -37,7 +37,8 @@ export const saveProduct = (req: Request, res: Response) => {
 
 
 }
-export const getProducts = (req: Request, res: Response) => {
+
+export const getProducts = async (req: Request, res: Response) => {
     const productId = parseInt(req.params.id);
     if (isNaN(productId)) {
         res.status(400).json({
@@ -45,7 +46,7 @@ export const getProducts = (req: Request, res: Response) => {
         });
         return;
     }
-    const product = productService.getProductById(productId);
+    const product = await productService.getProductById(productId);
     if (!product) {
         res.status(404).json({
             error: "Product not found"
@@ -54,35 +55,35 @@ export const getProducts = (req: Request, res: Response) => {
     }
     res.status(200).json(product);
 }
-export const updateProduct = (req: Request, res: Response) => {
-    const productId = parseInt(req.params.id);
-    if (isNaN(productId)) {
-        res.status(400).json({
-            error: "Invalid product id"
-        });
-        return;
-    }
-    const product = productService.getProductById(productId);
-    if (!product) {
-        res.status(404).json({
-            error: "Product not found"
-        });
-        return;
-    }
-    const updatedData = req.body;
-    const updatedProduct = productService.updateProduct(productId, updatedData);
-    if (!updatedProduct) {
-        res.status(404).json({
-            error: "Product not found"
-        });
-        return;
-    }
 
-    res.status(200).json(updatedProduct);
+export const updateProduct = async (req: Request, res: Response) => {
+    try {
+        const productId = parseInt(req.params.id);
+        if(isNaN(productId)) {
+            res.status(400).json({ error: 'Invalid product ID' });
+            return;
+        }
+        const updatedProduct = req.body;
+        const validateError = productService.validateProduct(updatedProduct);
+        if (validateError) {
+            res.status(400).json({ error: validateError });
+            return;
+        }
+        const product = await productService.updateProduct(productId, updatedProduct);
+        if (!product) {
+            res.status(404).json({ error: 'Product not found' });
+            return;
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 
 
 }
-export const deleteProduct = (req: Request, res: Response) => {
+
+export const deleteProduct = async (req: Request, res: Response) => {
     const productId = parseInt(req.params.id);
     if (isNaN(productId)) {
         res.status(400).json({
@@ -90,7 +91,7 @@ export const deleteProduct = (req: Request, res: Response) => {
         });
         return;
     }
-    const deleted = productService.deleteProduct(productId);
+    const deleted =await productService.deleteProduct(productId);
     if (!deleted) {
         res.status(404).json({
             error: "Product not found"
